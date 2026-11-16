@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import "./App.css";
+import { testBackend } from "./api";
 
 function App() {
   const [text, setText] = useState("");
@@ -13,6 +14,15 @@ function App() {
     }
 
     setMessage("Your text is ready for AI summarization!");
+  };
+
+  const handleTestBackend = async () => {
+    try {
+      const data = await testBackend();
+      setMessage(data.message);
+    } catch (error) {
+      setMessage("Could not connect to Flask backend.");
+    }
   };
 
   return (
@@ -46,6 +56,10 @@ function App() {
           </div>
 
           {message && <p className="message">{message}</p>}
+
+          <button onClick={handleTestBackend}>
+            Test Backend Connection
+          </button>
         </div>
       </main>
     </div>
